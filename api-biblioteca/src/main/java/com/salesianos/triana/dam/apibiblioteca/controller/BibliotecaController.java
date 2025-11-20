@@ -23,14 +23,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/biblioteca")
 @RestController
-@Tag(name = "Gestión de bibioteca", description = "Vamos comprobar los endopoints del servicio de bibliotecas")
+@Tag(name = "Gestión de biblioteca", description = "Vamos comprobar los endpoints del servicio de bibliotecas")
 public class BibliotecaController {
 
     private final BibliotecaService bibliotecaService;
 
     //Obtener todos
     @GetMapping
-    @Operation(summary = "Obtiene todas las bibliotecas registrada")
+    @Operation(summary = "Obtiene todas las bibliotecas registradas")
     @ApiResponses({
             @ApiResponse(responseCode = "200",
                     description = "Productos encontrados correctamente",
@@ -67,10 +67,9 @@ public class BibliotecaController {
                             """)
             ))
     })
-    public ResponseEntity<List<BibliotecaResponse>> getAll(){
-        return ResponseEntity.ok(
-                bibliotecaService.getAll().stream().map(BibliotecaResponse::of).toList()
-        );
+    public List<BibliotecaResponse> getAll(){
+        return bibliotecaService.getAll().stream().map(BibliotecaResponse::of).toList();
+
     }
 
     //Obtener una biblioteca por su identificador
@@ -108,10 +107,12 @@ public class BibliotecaController {
                             )
                     ))
     })
-    public ResponseEntity<BibliotecaResponse> getById(
+    public BibliotecaResponse getById(
             @Parameter(name = "id", description = "Id de la biblioteca", example = "1")
             @PathVariable Long id){
-        return ResponseEntity.ok(BibliotecaResponse.of(bibliotecaService.getById(id)));
+        return BibliotecaResponse.of(bibliotecaService.getById(id));
+
+
     }
 
     //Editar una biblioteca
